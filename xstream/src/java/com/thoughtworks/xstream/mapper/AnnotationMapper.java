@@ -30,6 +30,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.thoughtworks.xstream.InitializationException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -72,7 +73,8 @@ public class AnnotationMapper extends MapperWrapper implements AnnotationConfigu
     private transient AttributeMapper attributeMapper;
     private transient LocalConversionMapper localConversionMapper;
     private final Map<Class<?>, Map<List<Object>, Converter>> converterCache = new HashMap<>();
-    private final Set<Class<?>> annotatedTypes = Collections.synchronizedSet(new HashSet<Class<?>>());
+    private final Set<Class<?>> annotatedTypes = Collections.newSetFromMap(new ConcurrentHashMap<Class<?>, Boolean>());
+
 
     /**
      * Construct an AnnotationMapper.
